@@ -18,15 +18,18 @@ class AppointmentController extends Controller
 
     public function myAppointments()
     {
-
+        $user_id = Auth::id();
+        // dd($user_id);
+        $appointment = Appointment::where('user_id', $user_id)->get();
+        return $appointment;
     }
 
     public function create(Request $request)
     {
         $body = $request->all();
         $validator = Validator::make($body, [
-            'DateAndHour' => 'required|date',
-            'AppointmentType' => 'required|string'
+            'date_and_hour' => 'required|date',
+            'appointment_type_id' => 'required|string'
         ]);
         if($validator->fails()) {
             return response()->json([
